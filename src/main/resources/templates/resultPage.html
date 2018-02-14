@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
 <head>
-    <meta charset="UTF-8"/>
     <title>MySpringMVC_LinkedIn</title>
-    <link href="/webjars/materializecss/0.96.0/css/materialize.css"
-          type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 <body>
-<div class="row">
+<div class="row" layout:fragment="profile">
     <h2 class="indigo-text center">LinkedIn User Profile</h2>
     <p class="flow-text center" th:text="${profile_email}">profile_email</p>
 </div>
 
-<div class="row">
+<div class="row" layout:fragment="content">
     <h2 class="indigo-text center" th:text="|LinkedIn job results for ${keyword_search}|">search result</h2>
     <ul class="collection">
         <li class="collection-item avatar" th:each="job:${jobs_searched}">
-            <img th:src="|http://download.easyicon.net/png/1192818/602/|" alt="" class="circle"/>
+            <img th:src="|pictures/job.png|" alt="" class="circle"/>
             <span class="title" th:text="|${job.title} : ${job.company} - ${job.location}|">job_info</span>
             <p th:text="${job.description}">job_desc</p>
         </li>
