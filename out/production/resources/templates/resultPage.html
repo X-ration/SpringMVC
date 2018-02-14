@@ -2,9 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Hello thymeleaf</title>
+    <title>MySpringMVC_LinkedIn</title>
 </head>
 <body>
-<span th:text="${message}">Hello html</span>
+<h2><b>LinkedIn User Profile</b></h2>
+<span th:text="${profile_email}">Hello html</span>
+<h2><b>LinkedIn Jobs Search</b></h2>
+Keyword:<span th:text="${keyword_search}">Some keyword</span>
+<ul>
+    <li th:each="job:${jobs_searched}" th:text="${job}">Some job</li>
+</ul>
 </body>
 </html>
