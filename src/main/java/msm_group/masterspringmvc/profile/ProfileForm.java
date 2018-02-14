@@ -1,5 +1,10 @@
 package msm_group.masterspringmvc.profile;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +13,14 @@ import java.util.List;
 
 public class ProfileForm {
 
+    @Size(min = 2)
     private String linkedInHandle;
+    @Email
+    @NotEmpty
     private String email;
+    @NotNull
     private LocalDate birthDate;
+    @NotEmpty
     private List<String> tastes = new ArrayList<>();
 
     public String getLinkedInHandle() {

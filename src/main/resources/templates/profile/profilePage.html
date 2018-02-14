@@ -10,6 +10,10 @@
     <h2 class="indigo-text center">Personal info</h2>
     <!-- @{}语法将服务器上下文路径添加到参数上, 此处为localhost:8080 -->
     <form method="post" class="col m8 s12 offset-m2" th:object="${profileForm}">
+        <ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+            <li th:each="err:${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        </ul>
+
         <div class="row">
             <div class="input-field col s6">
                 <input id="linkedInHandle" type="text" th:field="${profileForm.linkedInHandle}"/>
