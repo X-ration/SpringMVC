@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8"/>
     <title>MySpringMVC_LinkedIn</title>
+    <link href="/webjars/materializecss/0.96.0/css/materialize.css"
+          type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 <body>
-<h2><b>LinkedIn User Profile</b></h2>
-<span th:text="${profile_email}">Hello html</span>
-<h2><b>LinkedIn Jobs Search</b></h2>
-Keyword:<span th:text="${keyword_search}">Some keyword</span>
-<ul>
-    <li th:each="job:${jobs_searched}" th:text="${job}">Some job</li>
-</ul>
+<div class="row">
+    <h2 class="indigo-text center">LinkedIn User Profile</h2>
+    <p class="flow-text center" th:text="${profile_email}">profile_email</p>
+</div>
+
+<div class="row">
+    <h2 class="indigo-text center" th:text="|LinkedIn job results for ${keyword_search}|">search result</h2>
+    <ul class="collection">
+        <li class="collection-item avatar" th:each="job:${jobs_searched}">
+            <img th:src="|http://download.easyicon.net/png/1192818/602/|" alt="" class="circle"/>
+            <span class="title" th:text="|${job.title} : ${job.company} - ${job.location}|">job_info</span>
+            <p th:text="${job.description}">job_desc</p>
+        </li>
+    </ul>
+</div>
+<script src="/webjars/jquery/2.1.4/jquery.js"></script>
+<script src="/webjars/materializecss/0.96.0/js/materialize.js"></script>
 </body>
 </html>
