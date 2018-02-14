@@ -12,10 +12,15 @@ public class LinkedInController {
     private LinkedIn linkedIn = LinkedIn.getInstance();
 
     @RequestMapping(value = "/")
+    public String home(Model model) {
+        model.addAttribute("profile_email", linkedIn.getUserProfile().getEmail());
+        return "searchPage";
+    }
+
+    @RequestMapping(value = "/result")
     public String hello(@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model) {
 
-        String text = linkedIn.getUserProfile().getEmail();
-        model.addAttribute("profile_email", text);
+        model.addAttribute("profile_email", linkedIn.getUserProfile().getEmail());
         model.addAttribute("keyword_search",keyword);
         model.addAttribute("jobs_searched", linkedIn.searchJobs(keyword));
 
