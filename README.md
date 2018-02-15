@@ -36,3 +36,7 @@ Finished Chapters:
   - 上传属性可配置(application.properties)
   - 处理异常：ExceptionHandler
   - 处理Servlet容器级别异常：EmbeddedServletContainerCustomizer
+  - 向Controller注入message source
+  - 表单对象会话级别持久化
+  - 构造函数注入和域注入
+  - Spring3种代理模式：TARGET_CLASS/INTERFACES/NO。

@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import sun.plugin2.message.Message;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
@@ -71,7 +69,7 @@ public class PictureUploadController {
     private Resource copyFileToPictures(MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
         File tempFile = File.createTempFile("pic", getFileExtension(filename), picturesDir.getFile());
-        //try...with代码块会自动关闭流，即使有异常发生
+        //try-with-resource代码块会自动关闭流，即使有异常发生
         try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
             return new FileSystemResource(tempFile);

@@ -2,6 +2,7 @@ package msm_group.masterspringmvc.profile;
 
 import msm_group.masterspringmvc.linkedin.LinkedIn;
 import msm_group.masterspringmvc.util.USLocalDateFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,19 @@ import java.util.Locale;
 @Controller
 public class ProfileController {
 
+    private UserProfileSession userProfileSession;
+
+    //构造函数注入。还有一种方式是域注入。
+    @Autowired
+    public ProfileController(UserProfileSession userProfileSession) {
+        this.userProfileSession = userProfileSession;
+    }
+
+    @ModelAttribute
+    public ProfileForm getProfileForm() {
+        return userProfileSession.toForm();
+    }
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String displayProfile(ProfileForm profileForm) {
         return "profile/profilePage";
@@ -27,7 +41,7 @@ public class ProfileController {
             return "profile/profilePage";
         }
         LinkedIn.getInstance().getUserProfile().setEmail(profileForm.getEmail());
-        System.out.println("[POST]save ok" + profileForm);
+        userProfileSession.saveForm(profileForm);
         return "redirect:/profile";
     }
 

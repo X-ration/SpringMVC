@@ -9,7 +9,7 @@
 
 <div class="row" layout:fragment="content">
     <h4 class="indigo-text center" th:text="#{searchPage.profile.title}">LinkedIn User Profile</h4>
-    <p class="flow-text center" th:text="${profile_email}">profile_email</p>
+    <p class="flow-text center" th:text="${profileForm.email}" th:if="${profileForm.email}">profile_email</p>
 
     <h4 class="indigo-text center" th:text="#{searchPage.search.title}">Please enter a search term</h4>
 

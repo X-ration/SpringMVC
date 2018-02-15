@@ -1,8 +1,12 @@
 package msm_group.masterspringmvc.controller;
 
 import msm_group.masterspringmvc.linkedin.LinkedIn;
+import msm_group.masterspringmvc.profile.ProfileForm;
+import msm_group.masterspringmvc.profile.UserProfileSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 public class LinkedInController {
 
     private LinkedIn linkedIn = LinkedIn.getInstance();
+    private UserProfileSession userProfileSession;
+
+    @Autowired
+    public LinkedInController(UserProfileSession userProfileSession) {
+        this.userProfileSession = userProfileSession;
+    }
+
+    @ModelAttribute
+    public ProfileForm getProfileForm() {
+        return userProfileSession.toForm();
+    }
 
     @RequestMapping(value = "/")
     public String home(Model model) {
