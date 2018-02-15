@@ -11,8 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
@@ -44,22 +47,16 @@ public class PictureUploadController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes,
-                           Model model) throws IOException{
-        if(file.isEmpty() || !isImage(file)) {
+                           Model model) throws IOException {
+        //throw new IOException("TEST HAHA");
+        if (file.isEmpty() || !isImage(file)) {
             redirectAttributes.addFlashAttribute("error",
                     "Incorrect file. Please upload a picture.");
             return "redirect:/upload";
         }
 
-        try {
-            Resource picturePath = copyFileToPictures(file);
-            model.addAttribute("picturePath", picturePath);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error",
-                    "An exception occurs during upload. Please try another picture.");
-            e.printStackTrace();
-            return "redirect:/upload";
-        }
+        Resource picturePath = copyFileToPictures(file);
+        model.addAttribute("picturePath", picturePath);
 
         return "profile/uploadPage";
     }
@@ -70,26 +67,7 @@ public class PictureUploadController {
         IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
     }
 
-    @ControllerAdvice
-    public class ExceptionProcess {
-        private String errorMsg = "An exception occured during upload. Please try another picture. (Maybe due to file size over limit)";
-
-        @ExceptionHandler(FileUploadBase.SizeLimitExceededException.class)
-        public String handleException(Exception e, RedirectAttributes redirectAttributes) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", errorMsg);
-            return "redirect:/upload";
-        }
-
-        @ExceptionHandler(MultipartException.class)
-        public String handleMultipartException(Exception e, RedirectAttributes redirectAttributes){
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", errorMsg);
-            return "redirect:/upload";
-        }
-    }
-
-    private Resource copyFileToPictures(MultipartFile file) throws Exception {
+    private Resource copyFileToPictures(MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
         File tempFile = File.createTempFile("pic", getFileExtension(filename), picturesDir.getFile());
         //try...with代码块会自动关闭流，即使有异常发生
@@ -97,6 +75,21 @@ public class PictureUploadController {
             IOUtils.copy(in, out);
             return new FileSystemResource(tempFile);
         }
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ModelAndView handleIOException(IOException exception) {
+        ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
+        modelAndView.addObject("error", exception.getMessage());
+        return modelAndView;
+    }
+
+    //MultipartException需要在Servlet容器级别处理，见WebConfiguration。
+    @RequestMapping(value = "/uploadError")
+    public ModelAndView onUploadError(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
+        modelAndView.addObject("error", "Error uploading, may due to file size over limit.");
+        return modelAndView;
     }
 
     private boolean isImage(MultipartFile file) {
