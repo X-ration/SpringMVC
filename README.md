@@ -34,4 +34,5 @@ Finished Chapters:
     (Since Java SE 7)
   - 将文件写入到响应中
   - 上传属性可配置(application.properties)
-  - 
+  - 处理异常：ExceptionHandler
+  - 处理Servlet容器级别异常：EmbeddedServletContainerCustomizer

@@ -1,26 +1,24 @@
 package msm_group.masterspringmvc.profile;
 
 import msm_group.masterspringmvc.config.PicturesUploadProperties;
-import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.WebUtils;
+import sun.plugin2.message.Message;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Locale;
 
 @Controller
 @SessionAttributes("picturePath")
@@ -29,10 +27,13 @@ public class PictureUploadController {
     private final Resource picturesDir;
     private final Resource anonymousPicture;
 
+    private final MessageSource messageSource;
+
     @Autowired
-    public PictureUploadController(PicturesUploadProperties uploadProperties) {
+    public PictureUploadController(PicturesUploadProperties uploadProperties, MessageSource messageSource) {
         picturesDir = uploadProperties.getUploadPath();
         anonymousPicture = uploadProperties.getAnonymousPicture();
+        this.messageSource = messageSource;
     }
 
     @ModelAttribute("picturePath")
@@ -47,11 +48,11 @@ public class PictureUploadController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes,
-                           Model model) throws IOException {
+                           Model model, Locale locale) throws IOException {
         //throw new IOException("TEST HAHA");
         if (file.isEmpty() || !isImage(file)) {
             redirectAttributes.addFlashAttribute("error",
-                    "Incorrect file. Please upload a picture.");
+                    messageSource.getMessage("upload.type.mismatch",null,locale));
             return "redirect:/upload";
         }
 
@@ -78,23 +79,23 @@ public class PictureUploadController {
     }
 
     @ExceptionHandler(IOException.class)
-    public ModelAndView handleIOException(IOException exception) {
+    public ModelAndView handleIOException(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
-        modelAndView.addObject("error", exception.getMessage());
+        modelAndView.addObject("error", messageSource.getMessage("upload.io.exception",null,locale));
         return modelAndView;
     }
 
     //MultipartException需要在Servlet容器级别处理，见WebConfiguration。
     @RequestMapping(value = "/uploadError")
-    public ModelAndView onUploadError(HttpServletRequest request) {
+    public ModelAndView onUploadError(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
-        modelAndView.addObject("error", "Error uploading, may due to file size over limit.");
+        modelAndView.addObject("error", messageSource.getMessage("upload.filesize.exceed",null,locale));
         return modelAndView;
     }
 
     private boolean isImage(MultipartFile file) {
-        return file.getContentType().startsWith("image");
         //通过MIME(Multipurpose Internet Mail Extensions)类型判断是否为图片
+        return file.getContentType().startsWith("image");
     }
 
     private static String getFileExtension(String name) {
