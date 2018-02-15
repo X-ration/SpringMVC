@@ -1,7 +1,9 @@
 package msm_group.masterspringmvc.profile;
 
+import msm_group.masterspringmvc.config.PicturesUploadProperties;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -21,7 +23,14 @@ import java.net.URLConnection;
 @Controller
 public class PictureUploadController {
 
-    public static final Resource PICTURES_DIR = new FileSystemResource("./pictures");
+    private final Resource picturesDir;
+    private final Resource anonymousPicture;
+
+    @Autowired
+    public PictureUploadController(PicturesUploadProperties uploadProperties) {
+        picturesDir = uploadProperties.getUploadPath();
+        anonymousPicture = uploadProperties.getAnonymousPicture();
+    }
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String uploadPage() {
@@ -50,9 +59,8 @@ public class PictureUploadController {
 
     @RequestMapping(value = "/uploadedPicture")
     public void getUploadedPicture(HttpServletResponse response) throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("static/pictures/guest.png");  //相对于src/main/resources目录！
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(classPathResource.getFilename()));
-        IOUtils.copy(classPathResource.getInputStream(), response.getOutputStream());
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
+        IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
     }
 
     @ControllerAdvice
@@ -77,7 +85,7 @@ public class PictureUploadController {
 
     private Resource copyFileToPictures(MultipartFile file) throws Exception {
         String filename = file.getOriginalFilename();
-        File tempFile = File.createTempFile("pic", getFileExtension(filename), PICTURES_DIR.getFile());
+        File tempFile = File.createTempFile("pic", getFileExtension(filename), picturesDir.getFile());
         //try...with代码块会自动关闭流，即使有异常发生
         try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
