@@ -4,14 +4,11 @@ import msm_group.masterspringmvc.config.PicturesUploadProperties;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,8 +16,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Controller
+@SessionAttributes("picturePath")
 public class PictureUploadController {
 
     private final Resource picturesDir;
@@ -32,13 +32,19 @@ public class PictureUploadController {
         anonymousPicture = uploadProperties.getAnonymousPicture();
     }
 
+    @ModelAttribute("picturePath")
+    public Resource picturePath() {
+        return anonymousPicture;
+    }
+
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String uploadPage() {
         return "profile/uploadPage";
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes,
+                           Model model) throws IOException{
         if(file.isEmpty() || !isImage(file)) {
             redirectAttributes.addFlashAttribute("error",
                     "Incorrect file. Please upload a picture.");
@@ -46,7 +52,8 @@ public class PictureUploadController {
         }
 
         try {
-            copyFileToPictures(file);
+            Resource picturePath = copyFileToPictures(file);
+            model.addAttribute("picturePath", picturePath);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error",
                     "An exception occurs during upload. Please try another picture.");
@@ -58,9 +65,9 @@ public class PictureUploadController {
     }
 
     @RequestMapping(value = "/uploadedPicture")
-    public void getUploadedPicture(HttpServletResponse response) throws IOException {
+    public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath")Resource picturePath) throws IOException {
         response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
-        IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
+        IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
     }
 
     @ControllerAdvice
@@ -80,7 +87,6 @@ public class PictureUploadController {
             redirectAttributes.addFlashAttribute("error", errorMsg);
             return "redirect:/upload";
         }
-
     }
 
     private Resource copyFileToPictures(MultipartFile file) throws Exception {

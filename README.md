@@ -32,4 +32,5 @@ Finished Chapters:
   - 添加.gitkeep强制版本控制
   - try-with-resources代码块自动关闭流，即使出现异常
     (Since Java SE 7)
-  - 
+  - 将文件写入到响应中
+  - 上传属性可配置(application.properties)
