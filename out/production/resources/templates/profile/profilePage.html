@@ -13,14 +13,14 @@
 
         <div class="row">
             <div class="input-field col s6">
-                <input id="linkedInHandle" type="text"
+                <input id="linkedInHandle" type="text" required="required"
                        th:field="${profileForm.linkedInHandle}"
                        th:errorclass="invalid"/>
                 <label for="linkedInHandle" th:text="#{profilePage.linkedIn.handle}">LinkedInHandle</label>
                 <div th:errors="*{linkedInHandle}" class="red-text">Error_linkedInHandle</div>
             </div>
             <div class="input-field col s6">
-                <input id="email" type="text"
+                <input id="email" type="email" required="required"
                        th:field="${profileForm.email}"
                        th:errorclass="invalid"/>
                 <label for="email" th:text="#{profilePage.email}">Email</label>
@@ -29,7 +29,7 @@
         </div>
         <div class="row">
             <div class="input-field col s6">
-                <input id="birthDate" type="text"
+                <input id="birthDate" type="text" required="required"
                        th:field="${profileForm.birthDate}"
                        th:placeholder="${dateFormat}"
                        th:errorclass="invalid"/>
@@ -49,7 +49,8 @@
             <div class="row" th:each="row,rowStat:*{tastes}">
                 <div class="col s6">
                     <!--双下划线之间的表达式会进行预处理-->
-                    <input type="text" th:field="*{tastes[__${rowStat.index}__]}"
+                    <input type="text" required="required"
+                           th:field="*{tastes[__${rowStat.index}__]}"
                            th:placeholder="#{profilePage.taste.placeholder}"/>
                 </div>
                 <div class="col s6">
@@ -69,5 +70,16 @@
         </div>
     </form>
 </div>
+
+<script layout:fragment="script">
+    $('button').bind('click',function(e){
+        if(e.currentTarget.name === 'save') {
+          $(e.currentTarget.form).removeAttr('novalidate');
+        } else {
+          $(e.currentTarget.form).attr('novalidate', 'novalidate');
+        }
+    });
+</script>
+
 </body>
 </html>
