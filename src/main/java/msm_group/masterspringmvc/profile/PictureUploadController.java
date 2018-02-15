@@ -2,6 +2,7 @@ package msm_group.masterspringmvc.profile;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,9 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLConnection;
 
 @Controller
 public class PictureUploadController {
@@ -46,6 +46,13 @@ public class PictureUploadController {
         }
 
         return "profile/uploadPage";
+    }
+
+    @RequestMapping(value = "/uploadedPicture")
+    public void getUploadedPicture(HttpServletResponse response) throws IOException {
+        ClassPathResource classPathResource = new ClassPathResource("static/pictures/guest.png");  //相对于src/main/resources目录！
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(classPathResource.getFilename()));
+        IOUtils.copy(classPathResource.getInputStream(), response.getOutputStream());
     }
 
     @ControllerAdvice
