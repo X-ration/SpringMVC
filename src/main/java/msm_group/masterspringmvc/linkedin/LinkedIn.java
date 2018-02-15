@@ -15,10 +15,10 @@ public class LinkedIn {
     private List<Job> jobs;
 
     private LinkedIn() {
-        this.userProfile = new UserProfile("Frank", "Adam",
+        userProfile = new UserProfile("Frank Adam",
                 "starksmile@hotmail.com", "学生",
                 "东北大学","辽宁-沈阳");
-        this.jobs = generateJobs();
+        jobs = generateJobs();
     }
 
     private List<Job> generateJobs() {

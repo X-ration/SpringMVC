@@ -27,3 +27,9 @@ Finished Chapters:
   - 国际化，4种LocaleResolver
   - 表单中的列表
   - 客户端校验（HTML5表单检验规范）；使用javascript控制表单novalidate属性
+- 第4章
+  - Multipart 文件上传
+  - 添加.gitkeep强制版本控制
+  - try-with-resources代码块自动关闭流，即使出现异常
+    (Since Java SE 7)
+  - 

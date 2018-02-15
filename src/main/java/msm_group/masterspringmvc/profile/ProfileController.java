@@ -1,5 +1,6 @@
 package msm_group.masterspringmvc.profile;
 
+import msm_group.masterspringmvc.linkedin.LinkedIn;
 import msm_group.masterspringmvc.util.USLocalDateFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ public class ProfileController {
             System.out.println("[POST]has error");
             return "profile/profilePage";
         }
+        LinkedIn.getInstance().getUserProfile().setEmail(profileForm.getEmail());
         System.out.println("[POST]save ok" + profileForm);
         return "redirect:/profile";
     }

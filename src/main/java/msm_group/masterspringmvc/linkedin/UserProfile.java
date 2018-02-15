@@ -2,20 +2,26 @@ package msm_group.masterspringmvc.linkedin;
 
 public class UserProfile {
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String profession;
     private String company;
     private String location;
 
-    public UserProfile(String firstName, String lastName, String email, String profession, String company, String location) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public UserProfile(String name, String email, String profession, String company, String location) {
+        this.name = name;
         this.email = email;
         this.profession = profession;
         this.company = company;
         this.location = location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -24,22 +30,6 @@ public class UserProfile {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getProfession() {
