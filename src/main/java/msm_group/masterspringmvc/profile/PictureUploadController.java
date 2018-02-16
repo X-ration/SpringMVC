@@ -24,45 +24,41 @@ public class PictureUploadController {
 
     private final Resource picturesDir;
     private final Resource anonymousPicture;
-
+    private final UserProfileSession userProfileSession;
     private final MessageSource messageSource;
 
     @Autowired
-    public PictureUploadController(PicturesUploadProperties uploadProperties, MessageSource messageSource) {
-        picturesDir = uploadProperties.getUploadPath();
-        anonymousPicture = uploadProperties.getAnonymousPicture();
+    public PictureUploadController(PicturesUploadProperties uploadProperties, MessageSource messageSource,
+                                   UserProfileSession userProfileSession) {
+        this.picturesDir = uploadProperties.getUploadPath();
+        this.anonymousPicture = uploadProperties.getAnonymousPicture();
         this.messageSource = messageSource;
+        this.userProfileSession = userProfileSession;
     }
 
-    @ModelAttribute("picturePath")
-    public Resource picturePath() {
-        return anonymousPicture;
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
-    public String uploadPage() {
-        return "profile/uploadPage";
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String onUpload(MultipartFile file, RedirectAttributes redirectAttributes,
+    @RequestMapping(value = "/profile", params = {"upload"}, method = RequestMethod.POST)
+    public String onUpload(@RequestParam MultipartFile file, RedirectAttributes redirectAttributes,
                            Model model, Locale locale) throws IOException {
         //throw new IOException("TEST HAHA");
         if (file.isEmpty() || !isImage(file)) {
-            redirectAttributes.addFlashAttribute("error",
+            redirectAttributes.addFlashAttribute("error_upload",
                     messageSource.getMessage("upload.type.mismatch",null,locale));
-            return "redirect:/upload";
+            return "redirect:/profile";
         }
 
         Resource picturePath = copyFileToPictures(file);
-        model.addAttribute("picturePath", picturePath);
+        userProfileSession.setPicturePath(picturePath);
 
-        return "profile/uploadPage";
+        return "redirect:profile";
     }
 
     @RequestMapping(value = "/uploadedPicture")
-    public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath")Resource picturePath) throws IOException {
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
+    public void getUploadedPicture(HttpServletResponse response) throws IOException {
+        Resource picturePath = userProfileSession.getPicturePath();
+        if(picturePath == null) {
+            picturePath = anonymousPicture;
+        }
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.getFilename()));
         IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
     }
 
@@ -72,14 +68,15 @@ public class PictureUploadController {
         //try-with-resource代码块会自动关闭流，即使有异常发生
         try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
-            return new FileSystemResource(tempFile);
         }
+        return new FileSystemResource(tempFile);
     }
 
     @ExceptionHandler(IOException.class)
     public ModelAndView handleIOException(Locale locale) {
-        ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
+        ModelAndView modelAndView = new ModelAndView("profile/profilePage");
         modelAndView.addObject("error", messageSource.getMessage("upload.io.exception",null,locale));
+        modelAndView.addObject("profileForm", userProfileSession.toForm());
         return modelAndView;
     }
 
@@ -88,6 +85,7 @@ public class PictureUploadController {
     public ModelAndView onUploadError(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
         modelAndView.addObject("error", messageSource.getMessage("upload.filesize.exceed",null,locale));
+        modelAndView.addObject("profileForm", userProfileSession.toForm());
         return modelAndView;
     }
 

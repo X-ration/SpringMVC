@@ -9,11 +9,11 @@
 
 <div class="row" layout:fragment="content">
     <h4 class="indigo-text center" th:text="#{resultPage.profile.title}">LinkedIn User Profile</h4>
-    <p class="flow-text center" th:text="${profile_email}">profile_email</p>
+    <p class="flow-text center" th:text="${profileForm.email}" th:if="${profileForm.email}">profile_email</p>
     <h4 class="indigo-text center" th:text="|#{resultPage.search.title} ${keyword_search}|">search result</h4>
     <ul class="collection">
         <li class="collection-item avatar" th:each="job:${jobs_searched}">
-            <img th:src="|pictures/job.png|" alt="" class="circle"/>
+            <img th:src="@{/pictures/job.png}" alt="" class="circle"/>
             <span class="title" th:text="|${job.title} : ${job.company} - ${job.location}|">job_info</span>
             <p th:text="${job.description}">job_desc</p>
         </li>

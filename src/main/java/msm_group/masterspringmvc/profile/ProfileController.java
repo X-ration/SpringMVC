@@ -3,25 +3,31 @@ package msm_group.masterspringmvc.profile;
 import msm_group.masterspringmvc.linkedin.LinkedIn;
 import msm_group.masterspringmvc.util.USLocalDateFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Locale;
 
 @Controller
 public class ProfileController {
 
     private UserProfileSession userProfileSession;
+    private MessageSource messageSource;
 
     //构造函数注入。还有一种方式是域注入。
     @Autowired
-    public ProfileController(UserProfileSession userProfileSession) {
+    public ProfileController(UserProfileSession userProfileSession, MessageSource messageSource) {
         this.userProfileSession = userProfileSession;
+        this.messageSource = messageSource;
     }
 
     @ModelAttribute
@@ -35,14 +41,26 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile", params = {"save"}, method = RequestMethod.POST)
-    public String saveProfile(@Valid ProfileForm profileForm, BindingResult bindingResult) {
+    public String saveProfile(@Valid ProfileForm profileForm, BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes, Locale locale) {
         if(bindingResult.hasErrors()) {
             System.out.println("[POST]has error");
             return "profile/profilePage";
         }
         LinkedIn.getInstance().getUserProfile().setEmail(profileForm.getEmail());
         userProfileSession.saveForm(profileForm);
-        return "redirect:/profile";
+        String redirectPage;
+        try {
+            redirectPage = "redirect:/search/mixed;keywords=" +
+                    URLEncoder.encode(String.join(",",profileForm.getTastes()), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            redirectPage = "redirect:/profile";
+            //TODO
+            redirectAttributes.addAttribute("error_submit",
+                    messageSource.getMessage("upload.error.submit",null,locale));
+        }
+        return redirectPage;
     }
 
     @RequestMapping(value = "/profile", params = {"addTaste"})
