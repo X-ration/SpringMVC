@@ -39,4 +39,5 @@ Finished Chapters:
   - 向Controller注入message source
   - 表单对象会话级别持久化
   - 构造函数注入和域注入
-  - Spring3种代理模式：TARGET_CLASS/INTERFACES/NO。
+  - Spring3种代理模式：TARGET_CLASS/INTERFACES/NO
+  - 自定义错误页
