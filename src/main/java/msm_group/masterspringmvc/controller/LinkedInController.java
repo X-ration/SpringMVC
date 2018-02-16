@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Controller
 public class LinkedInController {
@@ -33,7 +35,17 @@ public class LinkedInController {
     @RequestMapping(value = "/")
     public String home(Model model) {
         model.addAttribute("profile_email", linkedIn.getUserProfile().getEmail());
-        return "searchPage";
+        if(userProfileSession.toForm().getTastes().size() == 0)
+            return "redirect:/profile";
+        else {
+            try {
+                return "redirect:/search/mixed;keywords=" + URLEncoder.encode(String.join(",",
+                        userProfileSession.toForm().getTastes()), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return "redirect:/";
+            }
+        }
     }
 
     @RequestMapping(value = "/result")
