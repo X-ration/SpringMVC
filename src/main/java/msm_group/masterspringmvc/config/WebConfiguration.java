@@ -2,8 +2,6 @@ package msm_group.masterspringmvc.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import msm_group.masterspringmvc.util.USLocalDateFormatter;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -81,6 +79,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
         return objectMapper;
     }
 
+    //Swagger
     @Bean
     public Docket userApi() {
         return new Docket(DocumentationType.SWAGGER_2)
