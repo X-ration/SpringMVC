@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController  //返回类型序列化为合适的格式，默认为JSON。
 @RequestMapping("/api/search")
-@Secured("ROLE_ADMIN")
 public class SearchApiController {
 
     private SearchService searchService;
