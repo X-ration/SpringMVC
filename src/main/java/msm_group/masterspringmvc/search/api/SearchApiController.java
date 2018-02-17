@@ -3,12 +3,14 @@ package msm_group.masterspringmvc.search.api;
 import msm_group.masterspringmvc.linkedin.LightJob;
 import msm_group.masterspringmvc.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController  //返回类型序列化为合适的格式，默认为JSON。
 @RequestMapping("/api/search")
+@Secured("ROLE_ADMIN")
 public class SearchApiController {
 
     private SearchService searchService;

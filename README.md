@@ -53,3 +53,6 @@ Finished Chapters:
   - 异常处理：@ExceptionHandler/@ControllerAdvice
   - 使用Swagger对Api文档化
   - 启用XML序列化
+- 第6章
+  - 基本认证
+  - 用户授权
