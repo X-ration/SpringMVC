@@ -56,7 +56,6 @@ public class ProfileController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             redirectPage = "redirect:/profile";
-            //TODO
             redirectAttributes.addAttribute("error_submit",
                     messageSource.getMessage("upload.error.submit",null,locale));
         }

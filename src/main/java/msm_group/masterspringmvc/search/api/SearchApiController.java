@@ -1,6 +1,5 @@
 package msm_group.masterspringmvc.search.api;
 
-import msm_group.masterspringmvc.linkedin.Job;
 import msm_group.masterspringmvc.linkedin.LightJob;
 import msm_group.masterspringmvc.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;

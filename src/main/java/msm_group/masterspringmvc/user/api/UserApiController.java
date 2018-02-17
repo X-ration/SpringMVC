@@ -1,5 +1,6 @@
 package msm_group.masterspringmvc.user.api;
 
+import msm_group.masterspringmvc.exception.EntityNotFoundException;
 import msm_group.masterspringmvc.user.User;
 import msm_group.masterspringmvc.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,19 +37,15 @@ public class UserApiController {
     }
 
     @RequestMapping(value = "/{email}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User user) {
-        if(!userRepository.exists(email)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        User saved = userRepository.save(email, user);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User user)
+            throws EntityNotFoundException {
+        User saved = userRepository.update(email, user);
+        return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{email}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable String email) {
-        if(!userRepository.exists(email)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<User> deleteUser(@PathVariable String email)
+            throws EntityNotFoundException {
         userRepository.delete(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
