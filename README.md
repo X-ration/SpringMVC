@@ -43,10 +43,13 @@ Finished Chapters:
   - 自定义错误页
   - 矩阵变量映射（多关键字搜索）
 - 第5章
-  - 设计RESTful API
+  - RESTful API
+  - Richardson的成熟度模型
   - 调试RESTful API：Firefox RESTClient/Chrome Postman
   - 自定义JSON输出属性
+  - JSR-310日期序列化
   - @Repository
   - 关联状态码：ResponseEntiry
   - 异常处理：@ExceptionHandler/@ControllerAdvice
   - 使用Swagger对Api文档化
+  - 启用XML序列化
