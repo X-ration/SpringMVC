@@ -47,3 +47,6 @@ Finished Chapters:
   - 调试RESTful API：Firefox RESTClient/Chrome Postman
   - 自定义JSON输出属性
   - @Repository
+  - 关联状态码：ResponseEntiry
+  - 异常处理：@ExceptionHandler/@ControllerAdvice
+  - 使用Swagger对Api文档化
