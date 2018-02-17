@@ -31,7 +31,6 @@ public class LinkedIn {
                 String[] splits = line.split("::");
                 Job job = new Job(splits[0],splits[1],splits[2],splits[3],simpleDateFormat.parse(splits[4]),splits[5],Integer.valueOf(splits[6]),splits[7]);
                 jobs.add(job);
-                System.out.println(job);
             }
             fileReader.close();
             bufferedReader.close();

@@ -2,6 +2,8 @@ package msm_group.masterspringmvc.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import msm_group.masterspringmvc.util.USLocalDateFormatter;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -57,11 +59,13 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
     }
 
     //取消移除URL分号后的字符
+    //取消移除.号后的字符
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         UrlPathHelper urlPathHelper = new UrlPathHelper();
         urlPathHelper.setRemoveSemicolonContent(false);
         configurer.setUrlPathHelper(urlPathHelper);
+        configurer.setUseRegisteredSuffixPatternMatch(true);
     }
 
     //自定义对象映射器，处理日期格式问题
