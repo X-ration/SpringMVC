@@ -1,6 +1,7 @@
 package msm_group.masterspringmvc.search;
 
 import msm_group.masterspringmvc.linkedin.Job;
+import msm_group.masterspringmvc.linkedin.LightJob;
 import msm_group.masterspringmvc.profile.ProfileForm;
 import msm_group.masterspringmvc.profile.UserProfileSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class SearchController {
 
     @RequestMapping("/search/{searchType}")
     public ModelAndView search(@PathVariable String searchType, @MatrixVariable List<String> keywords) {
-        List<Job> jobs = searchService.search(searchType, keywords);
+        List<LightJob> jobs = searchService.search(searchType, keywords);
         ModelAndView modelAndView = new ModelAndView("resultPage");
         modelAndView.addObject("jobs_searched", jobs);
         modelAndView.addObject("keyword_search", String.join(",",keywords));

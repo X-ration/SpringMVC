@@ -1,5 +1,9 @@
 package msm_group.masterspringmvc.linkedin;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class LightJob {
 
     private String title;
@@ -7,11 +11,30 @@ public class LightJob {
     private String location;
     private String description;
 
-    public LightJob(String title, String company, String location, String description) {
+    private LocalDateTime dateTime;
+    private String jobImageUrl;
+    private String lang;
+    private Integer popularity;
+
+    public LightJob(String title, String company, String location, String description, LocalDateTime dateTime, String jobImageUrl, String lang, Integer popularity) {
         this.title = title;
         this.company = company;
         this.location = location;
         this.description = description;
+        this.dateTime = dateTime;
+        this.jobImageUrl = jobImageUrl;
+        this.lang = lang;
+        this.popularity = popularity;
+    }
+
+    public static LightJob toLightJob(Job job) {
+        LightJob lightJob = new LightJob(job.getTitle(),job.getCompany(),job.getLocation(),job.getDescription(),
+                null,job.getImageUrl(),job.getLanguageCode(),job.getPopularity());
+        Date createdAt = job.getCreatedAt();
+        if(createdAt != null) {
+            lightJob.dateTime = LocalDateTime.ofInstant(createdAt.toInstant(), ZoneId.systemDefault());
+        }
+        return lightJob;
     }
 
     public String getTitle() {
@@ -46,4 +69,35 @@ public class LightJob {
         this.description = description;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getJobImageUrl() {
+        return jobImageUrl;
+    }
+
+    public void setJobImageUrl(String jobImageUrl) {
+        this.jobImageUrl = jobImageUrl;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
 }
