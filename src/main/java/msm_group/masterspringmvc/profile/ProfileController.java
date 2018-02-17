@@ -47,7 +47,7 @@ public class ProfileController {
             System.out.println("[POST]has error");
             return "profile/profilePage";
         }
-        LinkedIn.getInstance().getUserProfile().setEmail(profileForm.getEmail());
+        //LinkedIn.getInstance().getUserProfile().setEmail(profileForm.getEmail());
         userProfileSession.saveForm(profileForm);
         String redirectPage;
         try {

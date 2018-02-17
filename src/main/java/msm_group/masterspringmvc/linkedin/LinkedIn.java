@@ -13,13 +13,9 @@ import java.util.stream.Collectors;
 public class LinkedIn {
 
     private static LinkedIn linkedIn = null;
-    private UserProfile userProfile;
     private List<Job> jobs;
 
     private LinkedIn() {
-        userProfile = new UserProfile("Frank Adam",
-                "starksmile@hotmail.com", "学生",
-                "东北大学","辽宁-沈阳");
         jobs = generateJobs();
     }
 
@@ -54,10 +50,6 @@ public class LinkedIn {
             linkedIn = new LinkedIn();
         }
         return linkedIn;
-    }
-
-    public UserProfile getUserProfile(){
-        return userProfile;
     }
 
     public List<Job> searchJobs(String keyword) {

@@ -42,3 +42,7 @@ Finished Chapters:
   - Spring3种代理模式：TARGET_CLASS/INTERFACES/NO
   - 自定义错误页
   - 矩阵变量映射（多关键字搜索）
+- 第5章
+  - 设计RESTful API
+  - 调试RESTful API：Chrome Postman/Firefox RESTClient
+  - 自定义JSON输出属性
