@@ -44,5 +44,6 @@ Finished Chapters:
   - 矩阵变量映射（多关键字搜索）
 - 第5章
   - 设计RESTful API
-  - 调试RESTful API：Chrome Postman/Firefox RESTClient
+  - 调试RESTful API：Firefox RESTClient/Chrome Postman
   - 自定义JSON输出属性
+  - @Repository

@@ -28,12 +28,12 @@ public class UserApiController {
         return userRepository.save(user);
     }
 
-    @RequestMapping(value = "/user/{email}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/users/{email}", method = RequestMethod.PUT)
     public User updateUser(@PathVariable String email, @RequestBody User user) {
         return userRepository.save(email, user);
     }
 
-    @RequestMapping(value = "/user/{email}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/users/{email}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable String email) {
         userRepository.delete(email);
     }
