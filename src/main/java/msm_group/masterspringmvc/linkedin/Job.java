@@ -1,5 +1,7 @@
 package msm_group.masterspringmvc.linkedin;
 
+import java.util.Date;
+
 public class Job {
 
     private String title;
@@ -7,11 +9,21 @@ public class Job {
     private String location;
     private String description;
 
-    public Job(String title, String company, String location, String description) {
+    //根据Tweet补充的附加属性
+    private Date createdAt;
+    private String imageUrl;
+    private Integer popularity;
+    private String languageCode;
+
+    public Job(String title, String company, String location, String description, Date createdAt, String imageUrl, Integer popularity, String languageCode) {
         this.title = title;
         this.company = company;
         this.location = location;
         this.description = description;
+        this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
+        this.popularity = popularity;
+        this.languageCode = languageCode;
     }
 
     public String getTitle() {
@@ -46,9 +58,41 @@ public class Job {
         this.description = description;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
+
     @Override
     public String toString() {
-        return "Title:" + title + "\r\n"
+        return "[Job]Title:" + title + "\r\n"
                 + "Company:" + company + "\r\n"
                 + "Location:" + location + "\r\n"
                 + "Description" + description + "\r\n";

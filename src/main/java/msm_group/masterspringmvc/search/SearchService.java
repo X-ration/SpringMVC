@@ -22,6 +22,7 @@ public class SearchService {
             }
             jobs.addAll(new ArrayList<>(set));
         }
+        System.out.println("keywords:"+keywords);
 
         return jobs;
     }
