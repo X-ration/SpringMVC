@@ -55,4 +55,6 @@ Finished Chapters:
   - 启用XML序列化
 - 第6章
   - 基本认证
-  - 用户授权
+  - 用户授权和URL授权
+  - Spring Security; Thymeleaf安全标签
+  - 授权LinkedIn用户登录（此处要在开发者中心配置正确的OAuth URL）

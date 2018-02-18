@@ -33,8 +33,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/api/**")
                 .httpBasic().and()
-                
-                //.csrf().disable()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET).hasRole("USER")
                 .antMatchers(HttpMethod.POST).hasRole("ADMIN")
