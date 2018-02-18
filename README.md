@@ -59,3 +59,6 @@ Finished Chapters:
   - Spring Security; Thymeleaf安全标签
   - 授权LinkedIn用户登录（此处要在开发者中心配置正确的OAuth URL）
   - 配置Spring Boot加载多个properties文件
+  - 分布式会话：Redis集成
+  - keytool生成自签名的证书
+  - 启用HTTPS安全连接
