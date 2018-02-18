@@ -58,3 +58,4 @@ Finished Chapters:
   - 用户授权和URL授权
   - Spring Security; Thymeleaf安全标签
   - 授权LinkedIn用户登录（此处要在开发者中心配置正确的OAuth URL）
+  - 配置Spring Boot加载多个properties文件
