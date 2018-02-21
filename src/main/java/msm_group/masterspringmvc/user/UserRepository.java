@@ -52,4 +52,11 @@ public class UserRepository {
         return userMap.containsKey(email);
     }
 
+    public void reset(User... users) {
+        userMap.clear();
+        for(User user:users) {
+            save(user);
+        }
+    }
+
 }

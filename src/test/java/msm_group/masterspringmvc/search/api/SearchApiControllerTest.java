@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * @author adam
- * 对SearchApiController的stub测试。
+ * 对SearchApiController的测试。
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
