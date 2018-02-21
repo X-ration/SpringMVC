@@ -64,3 +64,6 @@ Finished Chapters:
   - 启用HTTPS安全连接
   - SSL单通道/双通道模式
   - HTTP自动重定向HTTPS
+- 第7章
+  - 第一个单元测试
+  - Mock & Stub

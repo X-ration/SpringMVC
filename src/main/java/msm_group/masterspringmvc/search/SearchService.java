@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class SearchService {
+public class SearchService implements LinkedInSearch{
 
     private LinkedIn linkedIn = LinkedIn.getInstance();
 
@@ -32,4 +32,8 @@ public class SearchService {
         return jobs;
     }
 
+    @Override
+    public String toString() {
+        return "This is a SearchService.";
+    }
 }

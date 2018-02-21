@@ -1,6 +1,7 @@
 package msm_group.masterspringmvc.search.api;
 
 import msm_group.masterspringmvc.linkedin.LightJob;
+import msm_group.masterspringmvc.search.LinkedInSearch;
 import msm_group.masterspringmvc.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -12,10 +13,10 @@ import java.util.List;
 @RequestMapping("/api/search")
 public class SearchApiController {
 
-    private SearchService searchService;
+    private LinkedInSearch searchService;
 
     @Autowired
-    public SearchApiController(SearchService searchService) {
+    public SearchApiController(LinkedInSearch searchService) {
         this.searchService = searchService;
     }
 

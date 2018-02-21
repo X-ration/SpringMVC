@@ -17,11 +17,11 @@ import java.util.List;
 @Controller
 public class SearchController {
 
-    private SearchService searchService;
+    private LinkedInSearch searchService;
     private UserProfileSession userProfileSession;
 
     @Autowired
-    public SearchController(SearchService searchService, UserProfileSession userProfileSession) {
+    public SearchController(LinkedInSearch searchService, UserProfileSession userProfileSession) {
         this.searchService = searchService;
         this.userProfileSession = userProfileSession;
     }
