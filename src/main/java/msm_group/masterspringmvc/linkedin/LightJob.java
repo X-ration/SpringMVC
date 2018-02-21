@@ -27,6 +27,17 @@ public class LightJob {
         this.popularity = popularity;
     }
 
+    public LightJob() {
+        this.title = "";
+        this.company = "";
+        this.location = "";
+        this.description = "";
+        this.dateTime = null;
+        this.jobImageUrl = "";
+        this.lang = "";
+        this.popularity = 0;
+    }
+
     public static LightJob toLightJob(Job job) {
         LightJob lightJob = new LightJob(job.getTitle(),job.getCompany(),job.getLocation(),job.getDescription(),
                 null,job.getImageUrl(),job.getLanguageCode(),job.getPopularity());
