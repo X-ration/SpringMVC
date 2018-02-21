@@ -23,6 +23,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * @author adam
+ * 对SearchController的Mock测试。
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = MasterSpringMvcApplication.class)
 public class SearchControllerMockTest {

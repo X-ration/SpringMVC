@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 /**
  * @author adam
- * Stub测试中LinkedInSearch接口的替代实现。
+ * 对SearchController的Stub测试中LinkedInSearch接口的替代实现。
  */
 @Configuration
 public class StubLinkedInSearchConfig {
