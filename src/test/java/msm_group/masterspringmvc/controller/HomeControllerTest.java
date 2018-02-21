@@ -1,6 +1,7 @@
 package msm_group.masterspringmvc.controller;
 
 import msm_group.masterspringmvc.MasterSpringMvcApplication;
+import msm_group.masterspringmvc.builder.SessionBuilder;
 import msm_group.masterspringmvc.profile.UserProfileSession;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,10 +47,7 @@ public class HomeControllerTest {
 
     @Test
     public void should_redirect_to_tastes() throws Exception {
-        MockHttpSession session = new MockHttpSession();
-        UserProfileSession sessionBean = new UserProfileSession();
-        sessionBean.setTastes(Arrays.asList("spring","groovy"));
-        session.setAttribute("scopedTarget.userProfileSession",sessionBean);
+        MockHttpSession session = new SessionBuilder().userTastes("spring","groovy").build();
 
         this.mockMvc.perform(get("/")
                 .session(session))
