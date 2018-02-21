@@ -47,4 +47,8 @@ public class UserProfileSession implements Serializable {
     public void setPicturePath(Resource picturePath) throws IOException{
         this.picturePath = picturePath.getURL();
     }
+
+    public void setTastes(List<String> tastes) {
+        this.tastes = tastes;
+    }
 }
